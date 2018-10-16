@@ -1,22 +1,38 @@
-package lab2_1;
+package ab;
 
 public class A{
 	protected int number;
-	protected String name;
+	String name;
 	
-	public A( int number, String name){
-		this.number = number;
-		this.name = name;
+	public A( int aNumber, String aName){
+		this.number = aNumber;
+		this.name = aName;
 	}
 	
-	public int getNumber(){return number;}
-	public String getName(){return name;}
-	public void callDecrement(){decrement();}
-	public void callChangeName(){changeName();}
-	public void callIncrement(){increment();}
-	private void increment(){++number;}
-	protected void decrement(){--number;}
-	protected void changeName(){name = "NameA";}
+	public int getNumber(){
+		return number;
+	}
+	public String getName(){
+		return name;
+	}
+	public void callDecrement(){
+		decrement();
+	}
+	public void callChangeName(){
+		changeName();
+	}
+	public void callIncrement(){
+		increment();
+	}
+	private void increment(){
+		++number;
+	}
+	protected void decrement(){
+		--number;
+	}
+	void changeName(){
+		name = "NameA";
+	}
 }
 
 /*
