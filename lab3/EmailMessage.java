@@ -35,9 +35,7 @@ public class EmailMessage {
 		private LinkedList<String> cc; 
 		private LinkedList<String> bcc;
 
-		boolean check() {
-			return true;
-		}
+		
 		Builder addFrom(String name){
 			this.from = name;
 			return this;
@@ -121,14 +119,14 @@ public class EmailMessage {
 			}
 			
 
-				mm.setRecipients(Message.RecipientType.TO, addressTo);
+			mm.setRecipients(Message.RecipientType.TO, addressTo);
 		
-				mm.setSubject(this.subject); 
-				mm.setText(this.content);
+			mm.setSubject(this.subject); 
+			mm.setText(this.content);
 		
-				Transport t = session.getTransport("smtp");
-				t.connect(this.from,this.getProperty("Haslo:"));
-				t.sendMessage(mm, mm.getAllRecipients());
+			Transport t = session.getTransport("smtp");
+			t.connect(this.from,this.getProperty("Haslo:"));
+			t.sendMessage(mm, mm.getAllRecipients());
 		} catch (MessagingException mex) {
 			System.out.println("\nFailed, exception: " + mex);
 		}
