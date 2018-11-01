@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
 public class Cryptographer{
-	static void cryptfile(String rFile, String wFile, Algorithm algorithm){
+	static void cryptfile(String rFile, String wFile, Algorithm algorithm) throws Exception{
 		try {
 				FileReader fReader = new FileReader(rFile);
 				BufferedReader bufferReader = new BufferedReader(fReader);
@@ -49,7 +49,7 @@ public class Cryptographer{
 		}
 	}
 	
-	static void decryptfile(String rFile, String wFile, Algorithm algorithm){
+	static void decryptfile(String rFile, String wFile, Algorithm algorithm) throws Exception{
 		try {
 				FileReader fReader = new FileReader(rFile);
 				BufferedReader bufferReader = new BufferedReader(fReader);
@@ -101,7 +101,3 @@ public class Cryptographer{
     */
 }
 
-interface Algorithm{
-        public String crypt(String word);
-        public String decrypt(String word);
-}

@@ -39,8 +39,8 @@ public class Polibiusz implements Algorithm {
 		for(int i=0; i<word.length(); i+=2){
 			int xIndex = Integer.valueOf(word.charAt(i))-48;
 			int yIndex = Integer.valueOf(word.charAt(i+1))-48;
-			System.out.println(xIndex);
-			System.out.println(yIndex);
+			//System.out.println(xIndex);
+			//System.out.println(yIndex);
 			newWord += alfabet[xIndex-1][yIndex-1];
 		}
 		return newWord;
