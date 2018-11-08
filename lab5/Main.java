@@ -1,10 +1,15 @@
 
 
 public class Main {
-	public static void main(String[] args) throws Exception{
-
+	public static void main(String[] args) {
+		
+		int fps = 24;
+		int delay = 500;
 		MicroDVD dvd = new MicroDVD();
-		dvd.delay("src/napisy.txt","src/napisy_new.txt", 500, 24);
-	
+		try{
+			dvd.delay("src/napisy.txt","src/napisy_new.txt", delay, fps);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

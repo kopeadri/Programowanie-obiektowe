@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
-
 public class MicroDVD{
-	public void delay(final String fileIn, final String fileOut, int delay, int fps) {
+	public void delay(final String fileIn, final String fileOut, int delay, int fps) throws FrameException,Exception {
 	 	double fpms	 = fps * 0.001; //zamiana na : liczba klatek na milisekundê 
 	 	int shift = (int)(delay*fpms);
 		try {		
@@ -25,6 +24,8 @@ public class MicroDVD{
 				if (textLine.charAt(0) == '{') {
 					char c = textLine.charAt(i);
 					while(c  != '}' ) {
+						if(!Character.isDigit(c))
+							throw new FrameException("Wrong character in number of frame: " + c);
 						tablica[0] += c;
 						i++;
 						c = textLine.charAt(i);
@@ -32,14 +33,16 @@ public class MicroDVD{
 					i+=2;
 					c = textLine.charAt(i);
 					while(c  != '}' ) {
+						if(!Character.isDigit(c))
+							throw new FrameException("Wrong character in number of frame: " + c);
 						tablica[1] += c;
 						i++;
 						c = textLine.charAt(i);
 					}
-					kl1 = Integer.parseInt(tablica[0]);
+					kl1 = Integer.parseInt(tablica[0]);	//wyj¹tek NumberFormatException
 					kl2 = Integer.parseInt(tablica[1]);
 					if( kl1 > kl2)
-						throw new FirstBiggerThanSecondException("Nieprawid³owa sekwencja znaków: {"+tablica[0] +"}{"+tablica[1]+"}") ;
+						throw new FrameException("Incorrect character sequence: {"+tablica[0] +"} > {"+tablica[1]+"}") ;
 					kl1 += shift;
 					kl2 += shift;
 					tablica[0] = String.valueOf(kl1);
@@ -66,9 +69,7 @@ public class MicroDVD{
 		catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-		catch (FirstBiggerThanSecondException e) {
-			e.printStackTrace();
-		}	
+			
 	}
 	
 }
