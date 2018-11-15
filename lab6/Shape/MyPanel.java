@@ -47,10 +47,10 @@ MouseMotionListener {
 		int x, y;
 
 		if (e.getButton() != MouseEvent.BUTTON3) {
-			int index = 0;
 			int size = figures.size();
+			int index = size -1;
 			Shape s;
-			while (movingShape == null && index < size) {
+			while (movingShape == null && index >= 0) {
 				s = figures.get(index);
 				x = (int) s.getX();
 				y = (int) s.getY();
@@ -64,7 +64,7 @@ MouseMotionListener {
 					if(newX >= x && newX <= x+100 && newY >= y && newY <= 2*newX+y-2*x && newY <=-2*newX + y + 2*x +200)
 						movingShape = s;	
 				}
-				index++;
+				index--;
 			}
 		}
 		repaint();
