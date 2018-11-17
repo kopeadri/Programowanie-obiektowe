@@ -52,7 +52,6 @@ public class PanelChart extends JPanel {
 		g2d.drawLine(790, 650, 785, 645);
 		g2d.drawLine(790, 650, 785, 655);
 		
-		g2d.drawString(String.valueOf(min), 10, 650);
 		g2d.drawString(String.valueOf(first), 50, 670);
 		
 		
@@ -61,16 +60,39 @@ public class PanelChart extends JPanel {
 		double n = (last-first)/freq ; //liczba przedzialow 
 		int r = (int)Math.round(700/(n+1)); //wartoœæ przedzialu w pikselach
 		int temp=0;
-		setOfXOnScreen.add(50);
-		for(int i= 1; i <= n; i++) {
-			g2d.drawLine(50+i*r, 648, 50+i*r, 652);
-			if(i%2==0)
-				g2d.drawString(String.valueOf(setOfX.get(i)), 50+i*r, 670);
-			setOfXOnScreen.add(50+i*r);
-			temp = i;
+		
+		if(first == last) {
+			g2d.drawString(String.valueOf(first), 300, 670);
+			g2d.drawLine(300, 648, 300, 652);
+			setOfXOnScreen.add(300);
+		}else {
+			setOfXOnScreen.add(50);
+			for(int i= 1; i <= n; i++) {
+				g2d.drawString(String.valueOf(first), 50, 670);
+				//g2d.drawLine(50+i*r, 648, 50+i*r, 652);
+				if(setOfX.size()<=31) {
+					g2d.drawLine(50+i*r, 648, 50+i*r, 652);
+					if(i%2==0) {
+						g2d.drawLine(50+i*r, 646, 50+i*r, 654);
+						g2d.drawString(String.valueOf(setOfX.get(i)), 50+i*r, 670);
+					}
+				}else if(setOfX.size()<=201) {
+					if(i%10==0) {
+						g2d.drawLine(50+i*r, 646, 50+i*r, 654);
+						g2d.drawString(String.valueOf(setOfX.get(i)), 50+i*r, 670);
+					}
+				}else if(setOfX.size()<=2001) {
+					if(i%100==0) {
+						g2d.drawLine(50+i*r, 646, 50+i*r, 654);
+						g2d.drawString(String.valueOf(setOfX.get(i)), 50+i*r, 670);
+					}
+				}
+					
+				setOfXOnScreen.add(50+i*r);
+				temp = i;
 			//g2d.drawRect(setOfXOnScreen.get(i)-5, 500, 10,6);
+			}
 		}
-
 		
 		//osY
         int n1=30;  //liczba przedzia³ów
@@ -82,52 +104,50 @@ public class PanelChart extends JPanel {
 		//System.out.println(k);
 		
 		for(int i= 1; i <= n1; i++) {
-			g2d.drawLine(45, 650-i*r1, 55, 650-i*r1);
-			if(i%2==0)
-				g2d.drawString(String.valueOf(dRound(min+i*v)), 10, 650-i*r1);
+			if(min == max) {
+				g2d.drawLine(45, 500, 55, 500);
+				g2d.drawString(String.valueOf(min), 10, 500);
+			}else{
+				g2d.drawString(String.valueOf(min), 10, 650);
+				g2d.drawLine(45, 650-i*r1, 55, 650-i*r1);
+			
+				if(i%2==0)
+					g2d.drawString(String.valueOf(dRound(min+i*v)), 10, 650-i*r1);
 			//if(i==n1)
 				//System.out.println(650-i*r1);
+			}
 		}
 		
 		for(int i = 0; i < setOfX.size(); i++) {
 			double y = setOfY.get(i);
-			//System.out.print(y);
-			for(int j=0; j < n1; j++) {		//sprawdzamy ka¿dy przedzia³ na osi
-				//System.out.println("jestem"+y +" " + (min + j*v)+" "+ (min + (j+1)*v)+j);
-				if(y == dRound(min + j*v)) {	//y równy dolnej granicy przedzialu
-					setOfYOnScreen.add(650-j*r1); 
-					//System.out.println("jestem"+y +" " + dRound(min + j*v)+" "+ dRound(min + (j+1)*v));
-					break;
-				}
-				else if(y == dRound(min + (j+1)*v)) {		//y rowny gornej granicy przedzialu
-					setOfYOnScreen.add(650-(j+1)*r1);
-					break;
-				}
-				else if(y > min + j*v && y <min + (j+1)*v) {	
-					for(int k=1; k<r1; k++) { //sprawdzam przedzia³y rowne 1 pikselowi
-						if(y>min+j*v+(k-1)*p && y<= min+j*v+k*p) {
-							setOfYOnScreen.add(650-j*r1-k);
-							break;
+			
+			for(int j=0; j < n1; j++) {	//sprawdzamy ka¿dy przedzia³ na osi
+				if(min == max)
+					setOfYOnScreen.add(500);
+				else {
+					if(y == dRound(min + j*v)) {	//y równy dolnej granicy przedzialu
+						setOfYOnScreen.add(650-j*r1); 
+						break;
+					}
+					else if(y == dRound(min + (j+1)*v)) {		//y rowny gornej granicy przedzialu
+						setOfYOnScreen.add(650-(j+1)*r1);
+						break;
+					}
+					else if(y > min + j*v && y <min + (j+1)*v) {	
+						for(int k=1; k<r1; k++) { //sprawdzam przedzia³y rowne 1 pikselowi
+							if(y>min+j*v+(k-1)*p && y<= min+j*v+k*p) {
+								setOfYOnScreen.add(650-j*r1-k);
+								break;
+							}
+							if(k==r1-1 && y>min+j*v+k*p && y<min + (j+1)*v )
+								setOfYOnScreen.add(650-(j+1)*r1);
 						}
-						if(k==r1-1 && y>min+j*v+k*p && y<min + (j+1)*v )
-							setOfYOnScreen.add(650-(j+1)*r1);
 					}
 				}
-					
 			}
-			//System.out.print(setOfXOnScreen.get(i)+" ");
-			//System.out.println(setOfYOnScreen.get(i));
 		}
 		
-		//for(int i = 0; i < setOfX.size(); i++) {
-		//	setOfYOnScreen.add(i);
-		//}
-		
-		//System.out.println(setOfXOnScreen.size());
-		//System.out.println(setOfYOnScreen.size());
 		for(int i =0; i <setOfXOnScreen.size();i++) {
-			//System.out.print(setOfXOnScreen.get(i));
-			//System.out.println(setOfYOnScreen.get(i));
 			g2d.setColor(Color.blue);
 			g2d.drawOval(setOfXOnScreen.get(i)-2, setOfYOnScreen.get(i)-2, 4,4);
 			if (i < setOfXOnScreen.size()-1) {

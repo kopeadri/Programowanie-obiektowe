@@ -137,7 +137,7 @@ public class MyPanel extends JPanel implements ActionListener{
 				else
 					freq_ = Double.parseDouble(freq.getText());
 			}catch(NumberFormatException e) {
-				System.out.print("Wrong format of number");
+				System.out.println("Wrong format of number");
 				e.printStackTrace();
 			}
 			
