@@ -9,10 +9,10 @@ MouseMotionListener {
 	
 	private static final int WIDTH = 500;
 	private static final int HEIGHT = 500;
-	LinkedList<Shape> figures = new LinkedList<Shape>();
-	int x_=10, y_=10;
-	Shape movingShape;
-	//ArrayList points = new ArrayList();
+	private LinkedList<Shape> figures = new LinkedList<Shape>();
+	private int x_=10, y_=10;
+	private Shape movingShape;
+	private int x, y;
 	
 	MyPanel(){
 		addMouseListener(this);
@@ -43,8 +43,6 @@ MouseMotionListener {
 		
 		int newX = e.getX();
 		int newY = e.getY();
-		// wspolrzedne figur
-		int x, y;
 
 		if (e.getButton() != MouseEvent.BUTTON3) {
 			int size = figures.size();
@@ -66,6 +64,8 @@ MouseMotionListener {
 				}
 				index--;
 			}
+			x = movingShape.getX() - e.getX();
+			y = movingShape.getY() - e.getY();
 		}
 		repaint();
 	}
@@ -79,8 +79,20 @@ MouseMotionListener {
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (movingShape != null) {
-			movingShape.setX( e.getX());
-			movingShape.setY(e.getY());
+			int width = getWidth();
+			int height = getHeight();
+			if(e.getX()+x <0)
+				movingShape.setX(0);
+			else if(e.getX()+x +100 > width)
+				movingShape.setX(width-100);
+			else if(e.getY()+y <0)
+				movingShape.setY(0);
+			else if(e.getY()+y +100> height)
+				movingShape.setY(height-100);
+			else {
+				movingShape.setX(e.getX()+x);
+				movingShape.setY(e.getY()+y);
+			}
 			repaint();
 		}
 	}
@@ -88,29 +100,13 @@ MouseMotionListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
-	/*
-	public void drawCircle(Graphics g,int x,int y) {
-		Circle cir = new Circle(x,y);
-		cir.draw(g);
-		
-	}
-	
-	public void drawRectangle(Graphics g,int x,int y) {
-		Rectangle rec = new Rectangle(x,y);
-		rec.draw(g);
-	}
-	
-	public void drawTriangle(Graphics g,int x,int y) {
-		Triangle tri = new Triangle(x,y);
-		tri.draw(g);
-	}
-	*/
+
 	
 	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.WHITE); //ustawiamy t³o
-		g2d.fillRect(0, 0, WIDTH, HEIGHT);
+		g2d.fillRect(0, 0, getWidth(), getHeight());
 		for (Shape x: figures)
 			x.draw(g);
 		
