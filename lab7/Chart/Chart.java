@@ -123,7 +123,7 @@ public class Chart extends Application {
 			fontText = sb.toString();
 			webs[i].getEngine().loadContent(fontText);
 			webs[i].setMaxHeight(39);
-			webs[i].setPrefWidth(35);
+			webs[i].setPrefWidth(40);
 		}
 		
 		
