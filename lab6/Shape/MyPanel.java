@@ -64,8 +64,10 @@ MouseMotionListener {
 				}
 				index--;
 			}
-			x = movingShape.getX() - e.getX();
-			y = movingShape.getY() - e.getY();
+			if(movingShape != null) {
+				x = movingShape.getX() - e.getX();
+				y = movingShape.getY() - e.getY();
+			}
 		}
 		repaint();
 	}

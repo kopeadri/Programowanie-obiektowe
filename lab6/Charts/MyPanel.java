@@ -1,11 +1,11 @@
-package charts;
-
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 
 import javax.swing.*;
+
+import library.ChartHelp;
 
 
 public class MyPanel extends JPanel implements ActionListener{
@@ -26,6 +26,7 @@ public class MyPanel extends JPanel implements ActionListener{
 		private LinkedList<Double> setOfY;
 		private PanelChart panelChart;
 		private int k; //licznik wcisniecia Button
+		private ChartHelp chartHelp;
 		
 		MyPanel() {
 			setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -41,6 +42,7 @@ public class MyPanel extends JPanel implements ActionListener{
 			first_=last_=0;
 			freq_=0;
 			k=0;
+			chartHelp = new ChartHelp();
 			
 			Button.addActionListener(this);
 			
@@ -79,7 +81,7 @@ public class MyPanel extends JPanel implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			
-			if(source == Button) {
+			if(source == Button && first_ <= last_) {
 				k++;
 				chart();
 				if(k>1)
@@ -123,7 +125,7 @@ public class MyPanel extends JPanel implements ActionListener{
 					else
 						coeffs[i] = Integer.parseInt(fields[i].getText());
 				if(first.getText().equals("")) 
-					first_ = 0;
+					first_ = -10;
 				else
 					first_ = Integer.parseInt(first.getText());
 			
@@ -136,52 +138,20 @@ public class MyPanel extends JPanel implements ActionListener{
 					freq_ = 1;
 				else
 					freq_ = Double.parseDouble(freq.getText());
+				if(first_>last_)
+					throw new RangeException("Wrong range");
 			}catch(NumberFormatException e) {
 				System.out.println("Wrong format of number");
 				e.printStackTrace();
+			}catch(RangeException e) {
+				e.printStackTrace();
 			}
-			
-			setXAndY();
-			
-		}
-		
-		public double function(double x) {
-			double y;
-			y = 0;
-			double j=5.0;
-			for(int i = 0; i<6; i++) {
-				y += coeffs[i]*Math.pow(x, j);
-				j--;
-			}
-			return y;
-		}
-		
-		public void setXAndY() {
 			setOfX = new LinkedList<Double>();
 			setOfY = new LinkedList<Double>();
-			double x = first_;
-			
-			while( x <= last_) {
-				System.out.println(x);
-				setOfX.add(x);
-				setOfY.add(dRound(function(x)));
-				 x = dRound(x+freq_);
-			}
+			chartHelp.setXAndY(setOfX, setOfY, first_, last_, coeffs, freq_);
+			//setXAndY();
+		}
+		
 
-		}
-		public double dRound(double x) {
-			x *= 100;
-			x = Math.round(x);
-			x /= 100;
-			return x;
-		}
-		/*
-		public LinkedList<Double> getSetOfX(){
-			return setOfX;
-		}
-		public LinkedList<Double> getSetOfY(){
-			return setOfY;
-		}
-		*/
 }
 
