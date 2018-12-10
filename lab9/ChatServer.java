@@ -72,7 +72,7 @@ class clientThread extends Thread {
 		clientThread[] threads = this.threads;
 
 		try {
-			is = new BufferedReader(clientSocket.getInputStream());
+			is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 			os = new PrintStream(clientSocket.getOutputStream());
 			String name;
 			while (true) {

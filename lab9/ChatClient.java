@@ -44,7 +44,7 @@ public class ChatClient extends Application implements Runnable{
 	private int portNumber;
 	private static Socket clientSocket;
 	private static PrintStream os;
-	private static DataInputStream is;
+	private static BufferedReader is;
 	private static BufferedReader inputLine;
 	private static boolean closed;
 	
@@ -63,7 +63,7 @@ public class ChatClient extends Application implements Runnable{
 		      clientSocket = new Socket(host, portNumber);
 		      inputLine = new BufferedReader(new InputStreamReader(System.in));
 		      os = new PrintStream(clientSocket.getOutputStream());
-		      is = new DataInputStream(clientSocket.getInputStream());
+		      is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		    } catch (UnknownHostException e) {
 		      System.err.println("Don't know about host " + host);
 		    } catch (IOException e) {
